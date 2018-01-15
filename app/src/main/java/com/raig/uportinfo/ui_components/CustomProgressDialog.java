@@ -13,10 +13,11 @@ import com.raig.uportinfo.R;
 
 public class CustomProgressDialog extends Dialog {
 
-    public CustomProgressDialog(Context context) {
+    public CustomProgressDialog(Context context,boolean isCancelable) {
         super(context);
         getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.layout_progress_bar);
+        setCancelable(isCancelable);
     }
 }

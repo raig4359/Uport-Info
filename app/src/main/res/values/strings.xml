@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Uport Info</string>
+    <string name="fields_mandatory">All fields are mandatory!</string>
+    <string name="login_failed">Login Failed</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
