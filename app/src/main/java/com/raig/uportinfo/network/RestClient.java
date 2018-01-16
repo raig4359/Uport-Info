@@ -1,5 +1,7 @@
 package com.raig.uportinfo.network;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -10,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestClient {
 
     public static RestClient client;
-    private final String BASE_URL = "%%%%%%%%";
+    private final String BASE_URL = "%%%%%%%%%%";
     private Retrofit retrofit;
     private UportService service;
 
@@ -23,12 +25,20 @@ public class RestClient {
 
     private  Retrofit getRetrofitInstance() {
         if (retrofit == null) {
+
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
+                    .client(getOkHttpClient())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         return retrofit;
+    }
+
+    private OkHttpClient getOkHttpClient(){
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return new OkHttpClient.Builder().addInterceptor(interceptor).build();
     }
 
     public UportService getUportService(){

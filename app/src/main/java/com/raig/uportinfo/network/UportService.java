@@ -1,6 +1,7 @@
 package com.raig.uportinfo.network;
 
 import com.raig.uportinfo.rest_resource_model.ApiResponse;
+import com.raig.uportinfo.rest_resource_model.AutoVariantResponse;
 
 import java.util.Map;
 
@@ -16,7 +17,10 @@ import retrofit2.http.POST;
 public interface UportService {
 
     @FormUrlEncoded
-    @POST("&&&")
+    @POST("$$$$")
     Call<ApiResponse> performLogin(@FieldMap Map<String,String> credentials);
+
+    @POST("$$$$$")
+    Call<AutoVariantResponse> getTruckTypes();
 
 }

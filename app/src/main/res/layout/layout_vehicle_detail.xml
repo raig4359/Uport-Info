@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.raig.uportinfo.user_form.VehicleDetailFragment">
 
     <android.support.v7.widget.AppCompatSpinner
@@ -32,6 +32,7 @@
         android:id="@+id/til_vehicle_type"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/_3sdp"
         android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintHeight_default="wrap"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -52,6 +53,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_17sdp"
         android:layout_marginTop="@dimen/_10sdp"
+        android:visibility="gone"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/iv_delete_vehicle_item"
@@ -59,23 +61,23 @@
         app:layout_constraintWidth_default="wrap" />
 
     <RadioGroup
-        android:id="@+id/rg_payment"
+        android:id="@+id/rg_shutter_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/sp_truck_pick_up_type"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-         android:layout_marginBottom="12dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="25dp"
-        android:weightSum="1">
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sp_truck_pick_up_type">
 
         <RadioButton
-            android:id="@+id/rd_cash_on_delivery"
+            android:id="@+id/rd_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginRight="@dimen/_25sdp"
             android:layout_marginTop="10dp"
             android:checked="true"
             android:enabled="true"
@@ -83,9 +85,10 @@
             android:textSize="18sp" />
 
         <RadioButton
-            android:id="@+id/rd_pay_online"
+            android:id="@+id/rd_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_25sdp"
             android:checked="false"
             android:enabled="true"
             android:text="Opened"
