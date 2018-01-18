@@ -7,4 +7,5 @@ package com.raig.uportinfo.user_form;
 public interface OnFormInteractionListener {
     void showVehicleInfoForm();
     void showDriverDetailsForm();
+    void requestPermission();
 }

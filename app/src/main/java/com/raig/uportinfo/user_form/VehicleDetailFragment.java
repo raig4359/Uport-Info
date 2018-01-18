@@ -3,18 +3,23 @@ package com.raig.uportinfo.user_form;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.raig.uportinfo.R;
+import com.raig.uportinfo.UIFunctions;
+import com.raig.uportinfo.data.VehicleInfoEvent;
 import com.raig.uportinfo.data.VehicleType;
 import com.raig.uportinfo.rest_resource_model.AutoVariant;
 import com.raig.uportinfo.ui_components.VehicleInfoView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -36,6 +41,9 @@ public class VehicleDetailFragment extends Fragment {
     ArrayList<VehicleType> vehicleTypeList;
     ArrayList<AutoVariant> variantList;
     ArrayList<String> varStr;
+
+    UIFunctions uiFunctions;
+
 
     public VehicleDetailFragment() {
         // Required empty public constructor
@@ -80,10 +88,19 @@ public class VehicleDetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
-        addNewVehicleField();
+        preFillData();
+    }
+
+    private void preFillData() {
+        for (VehicleType vehicleType : vehicleTypeList) {
+            rootVehicle.addView(new VehicleInfoView(getActivity(), variantList, varStr, vehicleType));
+        }
+        VehicleInfoView vehicleInfoView = (VehicleInfoView) rootVehicle.getChildAt(0);
+        vehicleInfoView.setDeleteButtonVisibility(View.GONE);
     }
 
     private void init() {
+        uiFunctions = new UIFunctions();
         rootVehicle.setOnHierarchyChangeListener(new ViewGroup.OnHierarchyChangeListener() {
             @Override
             public void onChildViewAdded(View parent, View child) {
@@ -103,8 +120,35 @@ public class VehicleDetailFragment extends Fragment {
 //                .inflate(R.layout.layout_vehicle_detail, null);
 //        newVehicleField.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 //                ViewGroup.LayoutParams.WRAP_CONTENT));
-        rootVehicle.addView(new VehicleInfoView(getActivity(),variantList,varStr));
+        rootVehicle.addView(new VehicleInfoView(getActivity(), variantList, varStr,
+                new VehicleType("", "", "")));
     }
+
+    @OnClick(R.id.bt_next)
+    public void showDriverInfoForm() {
+        if (validateVehicleForm()) {
+            EventBus.getDefault().post(new VehicleInfoEvent(vehicleTypeList));
+            mListener.showDriverDetailsForm();
+            Toast.makeText(getActivity(), "Vehicle Information saved!", Toast.LENGTH_SHORT).show();
+        }else {
+            uiFunctions.showMessage(view, "All fields are mandatory!", Snackbar.LENGTH_LONG);
+        }
+    }
+
+    private boolean validateVehicleForm() {
+        vehicleTypeList.clear();
+        int vc = rootVehicle.getChildCount();
+        for (int i = 0; i < vc; ++i) {
+            VehicleInfoView vehicleInfoView = (VehicleInfoView) rootVehicle.getChildAt(i);
+            VehicleType type = vehicleInfoView.getVehicleType();
+            if (type == null) {
+                return false;
+            }
+            vehicleTypeList.add(type);
+        }
+        return true;
+    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -115,6 +159,30 @@ public class VehicleDetailFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFormInteractionListener");
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e(TAG, "onPause: # " );
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e(TAG, "onStop: # " );
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e(TAG, "onDestroy: # " );
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.e(TAG, "onDestroyView: # " );
     }
 
     @Override

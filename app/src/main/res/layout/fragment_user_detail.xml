@@ -22,32 +22,30 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="40dp"
-
                 android:text="Add Image"
                 android:textSize="12sp"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/iv_user"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_100sdp"
-                app:layout_constraintTop_toBottomOf="@+id/tv_add_txt"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:background="@color/lightGray_ultra"
                 android:src="@drawable/ic_add_g"
-                android:tint="@color/redOrange"
-                app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_add_txt" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/til_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_16sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_25sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -59,7 +57,10 @@
                     android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Name"
+                    android:hint="Name*"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
                     android:textSize="@dimen/_14sdp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -68,8 +69,8 @@
                 android:id="@+id/til_email"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_16sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -81,7 +82,10 @@
                     android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:hint="Email*"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
                     android:textSize="@dimen/_14sdp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -90,8 +94,8 @@
                 android:id="@+id/til_mobile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_16sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -103,7 +107,10 @@
                     android:id="@+id/et_mobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mobile"
+                    android:inputType="phone"
+                    android:hint="Mobile*"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
                     android:textSize="@dimen/_14sdp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -112,8 +119,8 @@
                 android:id="@+id/til_company_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_16sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -125,7 +132,10 @@
                     android:id="@+id/et_company_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Company Name"
+                    android:hint="Company Name*"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
                     android:textSize="@dimen/_14sdp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -134,8 +144,8 @@
                 android:id="@+id/til_address"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_16sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -149,8 +159,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_12sdp"
                     android:gravity="left"
-                    android:hint="Address"
-                    android:maxLines="5"
+                    android:inputType="textPostalAddress"
+                    android:hint="Address*"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
                     android:padding="4dp"
                     android:text=""
                     android:textSize="@dimen/_14sdp" />
@@ -162,8 +174,8 @@
                 android:id="@+id/til_pin_code"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_16sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -175,7 +187,10 @@
                     android:id="@+id/et_pin_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Pincode"
+                    android:inputType="number"
+                    android:hint="Pincode*"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
                     android:textSize="@dimen/_14sdp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -185,8 +200,8 @@
                 android:id="@+id/til_city"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_16sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -198,7 +213,10 @@
                     android:id="@+id/et_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="City"
+                    android:inputType="textPostalAddress"
+                    android:hint="City*"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
                     android:textSize="@dimen/_14sdp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -207,8 +225,8 @@
                 android:id="@+id/til_state"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_16sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -220,7 +238,10 @@
                     android:id="@+id/et_state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="State"
+                    android:hint="State*"
+                    android:inputType="textPostalAddress"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
                     android:textSize="@dimen/_14sdp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -229,8 +250,8 @@
                 android:id="@+id/til_country"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_16sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -242,7 +263,10 @@
                     android:id="@+id/et_country"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Country"
+                    android:inputType="textPostalAddress"
+                    android:imeOptions="actionDone"
+                    android:hint="Country*"
+                    android:maxLines="1"
                     android:textSize="@dimen/_14sdp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -251,17 +275,17 @@
                 android:id="@+id/bt_next"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_34sdp"
-                android:background="@color/colorAccent"
+                android:layout_marginBottom="@dimen/_25sdp"
                 android:layout_marginTop="@dimen/_25sdp"
+                android:background="@color/colorAccent"
                 android:paddingLeft="@dimen/_20sdp"
                 android:paddingRight="@dimen/_20sdp"
                 android:text="Next (Fill Vehicle Info)"
                 android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginBottom="@dimen/_25sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_country"/>
+                app:layout_constraintTop_toBottomOf="@+id/til_country" />
 
         </android.support.constraint.ConstraintLayout>
 

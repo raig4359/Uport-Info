@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.raig.uportinfo.R;
+import com.raig.uportinfo.data.VehicleType;
 import com.raig.uportinfo.rest_resource_model.AutoVariant;
 
 import java.util.ArrayList;
@@ -35,20 +36,24 @@ public class VehicleInfoView extends ConstraintLayout {
 
     ArrayAdapter<String> adapter;
 
+    VehicleType vehicleType;
+
     ArrayList<String> varStr;
     ArrayList<AutoVariant> variantList;
 
-    String selectedTypeId = "-1";
+    String selectedTypeId = "";
     String selectedTypeName = "";
     int selectedSpinnerPosition = -1;
-    String selectedVehicleModel = "";
 
-    public VehicleInfoView(Context context, ArrayList<AutoVariant> variantList, ArrayList<String> varStr) {
+    public VehicleInfoView(Context context, ArrayList<AutoVariant> variantList, ArrayList<String> varStr,
+                           VehicleType vehicleType) {
         this(context);
-        init(context);
         this.variantList = variantList;
         this.varStr = varStr;
+        this.vehicleType = vehicleType;
+        init(context);
         initTypeAdapter(context);
+        setData();
     }
 
     public VehicleInfoView(Context context) {
@@ -91,6 +96,16 @@ public class VehicleInfoView extends ConstraintLayout {
         });
     }
 
+    private void setData() {
+        if (vehicleType.getSpinnerPos() != -1) {
+            spSelectType.setSelection(vehicleType.getSpinnerPos());
+            selectedSpinnerPosition = vehicleType.getSpinnerPos();
+            selectedTypeId = vehicleType.getId();
+            selectedTypeName = vehicleType.getVehicleTypeName();
+        }
+        etModel.setText(vehicleType.getVehicleModel());
+    }
+
     public String getSelectedTypeId() {
         return selectedTypeId;
     }
@@ -108,16 +123,34 @@ public class VehicleInfoView extends ConstraintLayout {
     }
 
     public String getSelectedVehicleModel() {
-        return selectedVehicleModel;
+        return etModel.getText().toString().trim();
     }
 
     public void setSelectedVehicleModel(String selectedVehicleModel) {
-        this.selectedVehicleModel = selectedVehicleModel;
+        etModel.getText().toString().trim();
     }
 
     @OnClick(R.id.iv_delete_vehicle_item)
     public void onRemoveInfoField() {
+        this.vehicleType = null;
+        this.variantList = null;
+        this.varStr = null;
         ((ViewGroup) this.getParent()).removeView(this);
     }
 
+    public VehicleType getVehicleType() {
+        if (selectedSpinnerPosition == -1 || etModel.getText().toString().trim().isEmpty()) {
+            return null;
+        } else {
+            vehicleType.setId(selectedTypeId);
+            vehicleType.setVehicleTypeName(selectedTypeName);
+            vehicleType.setVehicleModel(etModel.getText().toString().trim());
+            vehicleType.setSpinnerPos(selectedSpinnerPosition);
+            return vehicleType;
+        }
+    }
+
+    public void setDeleteButtonVisibility(int visibility) {
+        ivDel.setVisibility(visibility);
+    }
 }

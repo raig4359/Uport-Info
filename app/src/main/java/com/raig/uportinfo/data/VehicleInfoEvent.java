@@ -14,4 +14,7 @@ public class VehicleInfoEvent {
         this.vehicleTypes = vehicleTypes;
     }
 
+    public ArrayList<VehicleType> getVehicleTypes() {
+        return vehicleTypes;
+    }
 }

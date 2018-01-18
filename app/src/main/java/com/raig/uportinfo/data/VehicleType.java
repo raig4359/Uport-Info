@@ -12,6 +12,7 @@ public class VehicleType implements Parcelable {
     private String id;
     private String vehicleTypeName;
     private String vehicleModel;
+    private int spinnerPos = -1;
 
     public VehicleType(String id, String vehicleTypeName, String vehicleModel) {
         this.id = id;
@@ -43,6 +44,14 @@ public class VehicleType implements Parcelable {
         this.vehicleModel = vehicleModel;
     }
 
+    public int getSpinnerPos() {
+        return spinnerPos;
+    }
+
+    public void setSpinnerPos(int spinnerPos) {
+        this.spinnerPos = spinnerPos;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -53,12 +62,14 @@ public class VehicleType implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.vehicleTypeName);
         dest.writeString(this.vehicleModel);
+        dest.writeInt(this.spinnerPos);
     }
 
     protected VehicleType(Parcel in) {
         this.id = in.readString();
         this.vehicleTypeName = in.readString();
         this.vehicleModel = in.readString();
+        this.spinnerPos = in.readInt();
     }
 
     public static final Parcelable.Creator<VehicleType> CREATOR = new Parcelable.Creator<VehicleType>() {

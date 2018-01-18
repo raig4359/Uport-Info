@@ -12,4 +12,7 @@ public class UserProfileEvent {
         this.profileModel = profileModel;
     }
 
+    public UserProfileModel getProfileModel() {
+        return profileModel;
+    }
 }

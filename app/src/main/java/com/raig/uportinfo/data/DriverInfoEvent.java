@@ -13,4 +13,8 @@ public class DriverInfoEvent {
     public DriverInfoEvent(ArrayList<DriverModel> driverModels) {
         this.driverModels = driverModels;
     }
+
+    public ArrayList<DriverModel> getDriverModels() {
+        return driverModels;
+    }
 }

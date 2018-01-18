@@ -3,6 +3,8 @@
     package="com.raig.uportinfo">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".UportApplication"
@@ -13,18 +15,31 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.raig.uportinfo"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/camera_provider"/>
+        </provider>
+
         <activity
             android:name=".splash.SplashActivity"
-            android:theme="@style/SplashTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
 
         </activity>
 
-        <activity android:name=".login.LoginActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".login.LoginActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".user_form.FormActivity"
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".user_form.FormActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
