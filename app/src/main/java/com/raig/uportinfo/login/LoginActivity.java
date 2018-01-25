@@ -1,5 +1,6 @@
 package com.raig.uportinfo.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
@@ -8,10 +9,12 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.raig.uportinfo.R;
+import com.raig.uportinfo.SharedPrefUtils;
 import com.raig.uportinfo.network.RestClient;
 import com.raig.uportinfo.rest_resource_model.ApiResponse;
 import com.raig.uportinfo.ui_components.CustomProgressDialog;
 import com.raig.uportinfo.UIFunctions;
+import com.raig.uportinfo.user_form.FormActivity;
 
 import java.util.HashMap;
 
@@ -77,8 +80,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 Log.e(TAG, "onResponse: " + response.body().toString());
+                SharedPrefUtils.saveLoginState(getApplicationContext());
                 progressDialog.dismiss();
                 uiFunctions.showMessage(clRoot,response.body().message, Snackbar.LENGTH_LONG);
+                startActivity(new Intent(LoginActivity.this, FormActivity.class));
             }
 
             @Override

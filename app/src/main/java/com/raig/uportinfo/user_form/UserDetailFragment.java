@@ -212,6 +212,7 @@ public class UserDetailFragment extends Fragment {
             protected void onPostExecute(Bitmap bitmap) {
                 super.onPostExecute(bitmap);
                 ivUser.setImageBitmap(bitmap);
+                profileModel.setImagePath(mCurrentPhotoPath);
             }
 
         }.execute();

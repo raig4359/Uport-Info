@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestClient {
 
     public static RestClient client;
-    private final String BASE_URL = "%%%%%%%%%%";
+    private final String BASE_URL = "##";
     private Retrofit retrofit;
     private UportService service;
 

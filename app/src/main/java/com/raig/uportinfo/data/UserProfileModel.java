@@ -18,6 +18,7 @@ public class UserProfileModel implements Parcelable {
     private String city;
     private String state;
     private String country;
+    private String imagePath = "";
 
     public UserProfileModel() {
         name = "";
@@ -103,6 +104,14 @@ public class UserProfileModel implements Parcelable {
         this.country = country;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -119,6 +128,7 @@ public class UserProfileModel implements Parcelable {
         dest.writeString(this.city);
         dest.writeString(this.state);
         dest.writeString(this.country);
+        dest.writeString(this.imagePath);
     }
 
     protected UserProfileModel(Parcel in) {
@@ -131,9 +141,10 @@ public class UserProfileModel implements Parcelable {
         this.city = in.readString();
         this.state = in.readString();
         this.country = in.readString();
+        this.imagePath = in.readString();
     }
 
-    public static final Parcelable.Creator<UserProfileModel> CREATOR = new Parcelable.Creator<UserProfileModel>() {
+    public static final Creator<UserProfileModel> CREATOR = new Creator<UserProfileModel>() {
         @Override
         public UserProfileModel createFromParcel(Parcel source) {
             return new UserProfileModel(source);

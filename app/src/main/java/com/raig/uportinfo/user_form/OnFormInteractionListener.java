@@ -8,4 +8,6 @@ public interface OnFormInteractionListener {
     void showVehicleInfoForm();
     void showDriverDetailsForm();
     void requestPermission();
+    void onEditClick();
+    void addNew();
 }

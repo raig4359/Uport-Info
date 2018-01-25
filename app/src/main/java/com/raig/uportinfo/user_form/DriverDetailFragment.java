@@ -27,7 +27,7 @@ import butterknife.OnClick;
 
 public class DriverDetailFragment extends Fragment {
 
-    private static final String DRIVER_INFO_PARAM = "vehicleInfo";
+    private static final String DRIVER_INFO_PARAM = "DriverInfo";
 
     View view;
     @BindView(R.id.ll_driver_details)
