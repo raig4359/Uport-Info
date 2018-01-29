@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void init() {
+        setTitle("User Information");
         uiFunctions = new UIFunctions();
         progressDialog = new CustomProgressDialog(this,false);
     }
@@ -75,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         params.put("username",etUserId.getText().toString().trim());
         params.put("password",etPassword.getText().toString().trim());
 
+
         RestClient.getRestClient().getUportService()
                 .performLogin(params).enqueue(new Callback<ApiResponse>() {
             @Override
@@ -84,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 uiFunctions.showMessage(clRoot,response.body().message, Snackbar.LENGTH_LONG);
                 startActivity(new Intent(LoginActivity.this, FormActivity.class));
+                finish();
             }
 
             @Override

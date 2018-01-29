@@ -1,5 +1,7 @@
 package com.raig.uportinfo.network;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -11,10 +13,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestClient {
 
-    public static RestClient client;
-    private final String BASE_URL = "##";
+    private static RestClient client;
+    private final String BASE_URL = " ";
     private Retrofit retrofit;
-    private UportService service;
+    private OkHttpClient okHttpClient;
 
     public static RestClient getRestClient() {
         if (client == null) {
@@ -23,9 +25,8 @@ public class RestClient {
         return client;
     }
 
-    private  Retrofit getRetrofitInstance() {
+    private Retrofit getRetrofitInstance() {
         if (retrofit == null) {
-
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(getOkHttpClient())
@@ -35,13 +36,20 @@ public class RestClient {
         return retrofit;
     }
 
-    private OkHttpClient getOkHttpClient(){
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        return new OkHttpClient.Builder().addInterceptor(interceptor).build();
+    private OkHttpClient getOkHttpClient() {
+        if (okHttpClient == null) {
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            okHttpClient = new OkHttpClient.Builder()
+                    .readTimeout(60, TimeUnit.SECONDS)
+                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .addInterceptor(interceptor).build();
+
+        }
+        return okHttpClient;
     }
 
-    public UportService getUportService(){
+    public UportService getUportService() {
         return getRetrofitInstance().create(UportService.class);
     }
 

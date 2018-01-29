@@ -28,6 +28,7 @@ import com.raig.uportinfo.R;
 import com.raig.uportinfo.SharedPrefUtils;
 import com.raig.uportinfo.UIFunctions;
 import com.raig.uportinfo.data.CameraPhotoEvent;
+import com.raig.uportinfo.data.CreateResponse;
 import com.raig.uportinfo.data.DriverInfoEvent;
 import com.raig.uportinfo.data.DriverModel;
 import com.raig.uportinfo.data.GalleryBitmapEvent;
@@ -37,7 +38,6 @@ import com.raig.uportinfo.data.VehicleInfoEvent;
 import com.raig.uportinfo.data.VehicleType;
 import com.raig.uportinfo.login.LoginActivity;
 import com.raig.uportinfo.network.RestClient;
-import com.raig.uportinfo.rest_resource_model.ApiResponse;
 import com.raig.uportinfo.rest_resource_model.AutoVariant;
 import com.raig.uportinfo.rest_resource_model.AutoVariantResponse;
 import com.raig.uportinfo.ui_components.CustomProgressDialog;
@@ -45,6 +45,8 @@ import com.raig.uportinfo.ui_components.CustomProgressDialog;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,6 +90,8 @@ public class FormActivity extends PermisoActivity implements OnFormInteractionLi
     static int MODE = 0;
     static final int CREATE_MODE = 1;
     static final int EDIT_MODE = 2;
+
+    String userIdForEdit = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,7 +230,11 @@ public class FormActivity extends PermisoActivity implements OnFormInteractionLi
     public void onDriverInfoEvent(DriverInfoEvent driverInfoEvent) {
 //        driverList.clear();
 //        driverList.addAll(driverInfoEvent.getDriverModels());
-        uploadInformation();
+        if (MODE == CREATE_MODE) {
+            uploadInformation();
+        } else if (MODE == EDIT_MODE) {
+            updateInformation();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -240,7 +248,7 @@ public class FormActivity extends PermisoActivity implements OnFormInteractionLi
         RequestBody requestBody;
         progressDialog.show();
 
-        if (!userProfileModel.getImagePath().isEmpty()) {
+        if (userProfileModel.getImagePath().isEmpty()) {
             requestBody = RequestBody.create(null, new byte[0]);
         } else {
             MediaType MEDIA_TYPE_JPG = MediaType.parse("image/jpeg");
@@ -248,25 +256,124 @@ public class FormActivity extends PermisoActivity implements OnFormInteractionLi
             requestBody = RequestBody.create(MEDIA_TYPE_JPG, file);
         }
 
-        RestClient.getRestClient().getUportService()
-                .uploadData("", requestBody)
-                .enqueue(new Callback<ApiResponse>() {
+        String userData = getUserDataInJsonSchema();
+
+        RequestBody userDataBody =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, userData);
+
+        RestClient.getRestClient()
+                .getUportService()
+                .uploadData(userDataBody, requestBody)
+                .enqueue(new Callback<CreateResponse>() {
                     @Override
-                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                        Log.e(TAG, "onResponse: " + response.body().toString());
+                    public void onResponse(Call<CreateResponse> call, Response<CreateResponse> response) {
+                        Log.e(TAG, " Retrofit --- onResponse: " + response.body().toString());
+                        userIdForEdit = response.body().getUserDataInfo().get(0).getUserInfo().getUserId();
                         progressDialog.dismiss();
                         showPreviewForm();
                         Toast.makeText(FormActivity.this, "Information Uploaded Successfully!", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
-                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                    public void onFailure(Call<CreateResponse> call, Throwable t) {
                         t.printStackTrace();
                         progressDialog.dismiss();
                         uiFunctions.showMessage(rlRoot, "Something went wrong!", Snackbar.LENGTH_LONG);
                     }
                 });
+    }
 
+    private void updateInformation() {
+        Toast.makeText(this, "Uploading your data, please wait!", Toast.LENGTH_SHORT).show();
+        RequestBody requestBody;
+        progressDialog.show();
+
+        if (userProfileModel.getImagePath().isEmpty()) {
+            requestBody = RequestBody.create(null, new byte[0]);
+        } else {
+            MediaType MEDIA_TYPE_JPG = MediaType.parse("image/jpeg");
+            File file = new File(userProfileModel.getImagePath());
+            requestBody = RequestBody.create(MEDIA_TYPE_JPG, file);
+        }
+
+        String userData = getUserDataInJsonSchema();
+
+        RequestBody userDataBody =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, userData);
+
+        RestClient.getRestClient()
+                .getUportService()
+                .updateData(userDataBody, requestBody)
+                .enqueue(new Callback<CreateResponse>() {
+                    @Override
+                    public void onResponse(Call<CreateResponse> call, Response<CreateResponse> response) {
+                        Log.e(TAG, " Retrofit --- onResponse: " + response.body().toString());
+                        MODE = CREATE_MODE;
+                        userIdForEdit = response.body().getUserDataInfo().get(0).getUserInfo().getUserId();
+                        progressDialog.dismiss();
+                        showPreviewForm();
+                        Toast.makeText(FormActivity.this, "Information Uploaded Successfully!", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<CreateResponse> call, Throwable t) {
+                        t.printStackTrace();
+                        progressDialog.dismiss();
+                        uiFunctions.showMessage(rlRoot, "Something went wrong!", Snackbar.LENGTH_LONG);
+                    }
+                });
+    }
+
+    private String getUserDataInJsonSchema() {
+        try {
+            JSONObject userData = new JSONObject();
+
+//            <------------ user info ----------------->
+            JSONObject userInfo = new JSONObject();
+            userInfo.put("name", userProfileModel.getName());
+            userInfo.put("email", userProfileModel.getEmail());
+            userInfo.put("mobile", userProfileModel.getMobileNo());
+            userInfo.put("company_name", userProfileModel.getCompanyName());
+            userInfo.put("address", userProfileModel.getAddress());
+            userInfo.put("pincode", userProfileModel.getPincode());
+            userInfo.put("city", userProfileModel.getCity());
+            userInfo.put("state", userProfileModel.getState());
+            userInfo.put("country", userProfileModel.getCountry());
+            if (!userIdForEdit.isEmpty())
+                userInfo.put("user_id", userIdForEdit);
+
+//            <--------------- vehicle info --------------->
+            JSONArray vehicleList = new JSONArray();
+            for (VehicleType type : vehicleTypeList) {
+                JSONObject vehicleObj = new JSONObject();
+                vehicleObj.put("truck_type", type.getVehicleTypeName());
+                vehicleObj.put("model", type.getVehicleModel());
+                vehicleList.put(vehicleObj);
+            }
+
+//            <----------------- Driver info ----------------->
+            JSONArray driverList = new JSONArray();
+            for (DriverModel driverModel : this.driverList) {
+                JSONObject driverObj = new JSONObject();
+                driverObj.put("name", driverModel.getName());
+                driverObj.put("email", driverModel.getEmail());
+                driverObj.put("mobile", driverModel.getMobileNo());
+                driverObj.put("experience", driverModel.getExperience());
+                driverObj.put("truck_driven", driverModel.getVehiclesDriven());
+                driverList.put(driverObj);
+            }
+
+            userData.put("userInfo", userInfo);
+            userData.put("VehicleInfo", vehicleList);
+            userData.put("DriverInfo", driverList);
+
+            return userData.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void showPreviewForm() {

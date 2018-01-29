@@ -1,5 +1,6 @@
 package com.raig.uportinfo.network;
 
+import com.raig.uportinfo.data.CreateResponse;
 import com.raig.uportinfo.rest_resource_model.ApiResponse;
 import com.raig.uportinfo.rest_resource_model.AutoVariantResponse;
 
@@ -21,13 +22,17 @@ import retrofit2.http.Part;
 public interface UportService {
 
     @FormUrlEncoded
-    @POST("@@")
+    @POST(" ")
     Call<ApiResponse> performLogin(@FieldMap Map<String,String> credentials);
 
-    @GET("%%")
+    @GET(" ")
     Call<AutoVariantResponse> getTruckTypes();
 
     @Multipart
-    @POST("&&")
-    Call<ApiResponse> uploadData(@Part("userData") String userData, @Part("Image") RequestBody image);
+    @POST(" ")
+    Call<CreateResponse> uploadData(@Part("userData") RequestBody body, @Part("Image") RequestBody image);
+
+    @Multipart
+    @POST(" ")
+    Call<CreateResponse> updateData(@Part("userData") RequestBody body, @Part("Image") RequestBody image);
 }
